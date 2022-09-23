@@ -1,12 +1,23 @@
 import { lazy } from 'react';
 
 /* A way to lazy load the components and routing the application. */
-const HomeView = lazy(() =>
-    import('@/example').then(({ Home }) => ({
-        default: Home,
+const MainPageView = lazy(() =>
+    import('@/views/main-page').then(({ MainPage }) => ({
+        default: MainPage,
     })),
 );
 
+const PartsPageView = lazy(() =>
+    import('@/views/parts-page').then(({ PartsPage }) => ({
+        default: PartsPage,
+    })),
+);
+
+const ErrorPageView = lazy(() =>
+    import('@/views/error-page').then(({ ErrorPage }) => ({
+        default: ErrorPage,
+    })),
+);
 
 interface RouteProps {
     path: string;
@@ -16,9 +27,19 @@ interface RouteProps {
 
 const routes: ReadonlyArray<RouteProps> = [
     {
-        path: '/',
-        name: 'Home',
-        component: HomeView,
+        path: '/main-page',
+        name: 'MainPage',
+        component: MainPageView,
+    },
+    {
+        path: '/parts-page',
+        name: 'PartsPage',
+        component: PartsPageView,
+    },
+    {
+        path: '*',
+        name: 'ErrorPage',
+        component: ErrorPageView,
     },
 ];
 

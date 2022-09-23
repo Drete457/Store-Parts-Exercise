@@ -10,7 +10,3 @@ html {
     width: 6px;
     height: 6px;
 }
-
-:disabled {
-    @apply text-gray-300 border-gray-300 cursor-not-allowed;
-}
