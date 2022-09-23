@@ -1,0 +1,34 @@
+.loader {
+    margin: 3em 0;
+    height: 10em;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+    height: 7em;
+    width: 7em;
+    border-top: 1.1em solid rgba(134, 45, 235, 0.2);
+    border-right: 1.1em solid rgba(134, 45, 235, 0.2);
+    border-bottom: 1.1em solid rgba(134, 45, 235, 0.2);
+    border-left: 1.1em solid rgba(134, 45, 235, 1);
+    transform: translateZ(0);
+    animation: load8 1.1s infinite linear;
+}
+
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
