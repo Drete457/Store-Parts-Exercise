@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './router';
 import '@/styles/index.css';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 /* A way to render the app. */
 const root = ReactDOM.createRoot(
