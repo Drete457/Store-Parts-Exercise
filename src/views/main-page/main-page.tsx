@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useGetParts } from '@/hooks';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useGetParts, useGetTypes } from '@/hooks';
 import { PartsProps, QueryParams } from '@/helpers/interface';
 import { OrderDirectionImage } from '@/components/main-page';
-import { search } from '@/assets';
 import { LoadingSpinner } from '@/components/loading-animations/loading-spinner';
+import { Table } from '@/components/table';
+import { search } from '@/assets';
+import { routesPath } from '@/routes';
 
 const MainPage: React.FC = () => {
+    const navigate: NavigateFunction = useNavigate();
     const [partName, setPartName] = useState<string>('');
     const [partType, setPartType] = useState<string>('');
     const [typeOfParts, setTypeOfParts] = useState<ReadonlyArray<string>>([]);
@@ -14,7 +18,14 @@ const MainPage: React.FC = () => {
     const [listOfParts, setListOfParts] = useState<ReadonlyArray<PartsProps>>(
         [],
     );
+    const [listBackup, setListBackup] = useState<ReadonlyArray<PartsProps>>([]);
+
     const { error, data, setData, execute } = useGetParts();
+    const {
+        error: errorTypes,
+        data: dataTypes,
+        execute: executeTypes,
+    } = useGetTypes();
 
     const sortData = useCallback(
         (dataToSort: ReadonlyArray<PartsProps>) => {
@@ -34,6 +45,10 @@ const MainPage: React.FC = () => {
     );
 
     useEffect(() => {
+        executeTypes();
+    }, [executeTypes]);
+
+    useEffect(() => {
         if (!isLoading && data.length === 0) {
             const query: QueryParams = {};
 
@@ -46,19 +61,20 @@ const MainPage: React.FC = () => {
     }, [data, execute, isLoading, partName, partType]);
 
     useEffect(() => {
-        if (typeOfParts.length === 0 && data.length > 0) {
-            const types = data.map(part => part.type);
-            const uniqueTypes = [...new Set(types)];
+        if (dataTypes) {
+            const uniqueTypes = [...new Set(dataTypes)];
             setTypeOfParts(uniqueTypes);
         }
-    }, [data, typeOfParts.length]);
+    }, [dataTypes]);
 
     useEffect(() => {
         if (isLoading && data.length > 0) {
+            if (listBackup.length === 0) setListBackup(data);
+
             setListOfParts(sortData(data));
             setIsLoading(false);
         }
-    }, [data, isLoading, sortData]);
+    }, [data, isLoading, listBackup.length, sortData]);
 
     useEffect(() => {
         if (data.length > 0) {
@@ -81,7 +97,6 @@ const MainPage: React.FC = () => {
                                 setData([]);
                                 setPartName(e.target.value);
                             }}
-                            disabled={isLoading}
                         />
 
                         <img
@@ -100,6 +115,7 @@ const MainPage: React.FC = () => {
                             setPartType(e.target.value);
                         }}
                         disabled={isLoading}
+                        hidden={errorTypes !== undefined}
                     >
                         <option value="">All</option>
                         {typeOfParts.map(type => (
@@ -117,37 +133,22 @@ const MainPage: React.FC = () => {
                         Price Order
                         <OrderDirectionImage orderDirection={orderDirection} />
                     </button>
+                    <button
+                        type="button"
+                        className="flex items-center gap-2 border border-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() =>
+                            navigate(routesPath.PartsPage, {
+                                state: { listBackup },
+                            })
+                        }
+                    >
+                        Parts Page
+                    </button>
                 </section>
                 <hr className="border-blue-800 mt-4 h-5"></hr>
             </header>
             <main>
-                {isLoading ? (
-                    <LoadingSpinner />
-                ) : (
-                    <table className="min-w-full">
-                        <thead className="border border-blue-500 bg-blue-500 text-white font-bold py-2 px-4">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listOfParts.map((part, index) => (
-                                <tr
-                                    key={part.name}
-                                    className="border border-black even:bg-blue-500 odd:bg-purple-600 hover:bg-blue-700 text-white font-bold py-2 px-4 text-center"
-                                >
-                                    <td>{index}</td>
-                                    <td>{part.name}</td>
-                                    <td>{part.type}</td>
-                                    <td>{part.price}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+                {isLoading ? <LoadingSpinner /> : <Table data={listOfParts} />}
             </main>
         </section>
     );
