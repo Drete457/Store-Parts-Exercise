@@ -14,8 +14,8 @@
     },
     "scripts": {
         "dev": "concurrently --kill-others \"yarn back\" \"yarn front\"",
-        "front": "vite",
         "back": "node start.js",
+        "front": "vite",
         "build": "tsc && vite build",
         "pretty": "prettier --write \"src/**/*.{css,js,json,ts,tsx}\"",
         "update": "yarn-upgrade-all"

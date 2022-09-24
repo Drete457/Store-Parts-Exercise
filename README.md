@@ -9,8 +9,8 @@ This is an exercise for the recruitment process at Mozantech.
 With Git and Node.js installed on your machine, choose location and clone repository, use this commands:
 
 ```
-git clone https://github.com/Drete457/alphaobservatorymanagementsystem.git
-cd store-parts
+git clone https://github.com/Drete457/store-parts-exercise.git
+cd store-parts-exercise
 yarn
 yarn dev - to run both server and client
 yarn front - to run client
