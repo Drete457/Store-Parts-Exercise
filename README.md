@@ -16,7 +16,6 @@ yarn dev - to run both server and client
 yarn front - to run client
 yarn back - to run server
 ```
-```
 
 ## Technologies
 
