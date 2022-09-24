@@ -15,7 +15,7 @@ const PartsPage: React.FC = () => {
     const navigate: NavigateFunction = useNavigate();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { error, data, execute } = useGetParts();
-    console.log(data);
+
     useEffect(() => {
         if (!location.state) {
             setIsLoading(true);
