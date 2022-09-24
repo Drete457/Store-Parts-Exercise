@@ -5,7 +5,6 @@ const routes = require('./routes/parts');
 
 const app = express();
 
-app.use(express.json({ extended: false }));
 app.use('/store', routes);
 
 module.exports = app;

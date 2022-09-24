@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/Drete457/store-parts-exercise.git"
     },
     "scripts": {
         "dev": "concurrently --kill-others \"yarn back\" \"yarn front\"",
