@@ -1,1 +1,1 @@
-export { default as useGetAll } from './get-all';
+export { default as useGetParts } from './use-get-parts';

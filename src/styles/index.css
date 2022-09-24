@@ -6,6 +6,10 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+    @apply bg-blue-200;
+}
+
 .scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;

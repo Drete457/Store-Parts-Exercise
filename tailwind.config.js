@@ -3,7 +3,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'primary': '#1E90FF',
+                primary: '#1E90FF',
             },
             fontFamily: {
                 opensans: ['"Open Sans"', 'sans-serif'],
